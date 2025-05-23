@@ -1,4 +1,4 @@
-import { MapContainer as LeafletMapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -12,8 +12,8 @@ export default function Map({ stations }: Props) {
     : [48.1351, 11.5820];
 
   return (
-    <LeafletMapContainer
-      center={center}
+    <MapContainer
+      center={center as [number, number]}
       zoom={13}
       style={{ height: '400px', width: '100%' }}
     >
@@ -40,6 +40,6 @@ export default function Map({ stations }: Props) {
           </Popup>
         </Marker>
       ))}
-    </LeafletMapContainer>
+    </MapContainer>
   );
 }
