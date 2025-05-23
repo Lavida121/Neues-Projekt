@@ -1,6 +1,6 @@
 'use client';
 
-import { MapContainer as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -14,7 +14,7 @@ export default function Map({ stations }: Props) {
     : [48.1351, 11.5820];
 
   return (
-    <LeafletMap
+    <MapContainer
       center={center}
       zoom={13}
       style={{ height: '400px', width: '100%' }}
@@ -42,6 +42,6 @@ export default function Map({ stations }: Props) {
           </Popup>
         </Marker>
       ))}
-    </LeafletMap>
+    </MapContainer>
   );
 }
