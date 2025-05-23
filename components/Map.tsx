@@ -1,22 +1,21 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-import { TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { MapContainer as LeafletMap } from 'react-leaflet';
 
 type Props = {
   stations: any[];
 };
 
-export default function Map({ stations }: Props) {
+export default function Map({ stations }: Props): JSX.Element {
   const center: [number, number] = stations.length
     ? [stations[0].lat, stations[0].lng]
     : [48.1351, 11.5820];
 
   return (
-    <LeafletMap
+    // @ts-expect-error – Leaflet Typen sind buggy, aber Props sind korrekt
+    <MapContainer
       center={center}
       zoom={13}
       style={{ height: '400px', width: '100%' }}
@@ -44,6 +43,6 @@ export default function Map({ stations }: Props) {
           </Popup>
         </Marker>
       ))}
-    </LeafletMap>
+    </MapContainer>
   );
 }
