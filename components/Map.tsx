@@ -3,11 +3,9 @@
 import dynamic from 'next/dynamic';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { TileLayer, Marker, Popup } from 'react-leaflet';
+import { Marker, Popup, TileLayer } from 'react-leaflet';
 
-const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), {
-  ssr: false
-});
+const MapContainer = dynamic(() => import('react-leaflet').then(m => m.MapContainer), { ssr: false });
 
 type Props = {
   stations: any[];
@@ -20,15 +18,15 @@ export default function Map({ stations }: Props): JSX.Element {
 
   return (
     <MapContainer
-      {...({
-        center,
-        zoom: 13,
-        style: { height: '400px', width: '100%' }
-      } as any)}
+      center={center}
+      zoom={13}
+      style={{ height: '400px', width: '100%' }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution="&copy; OpenStreetMap contributors"
+        options={{
+          attribution: '&copy; OpenStreetMap contributors'
+        }}
       />
       {stations.map((s) => (
         <Marker
