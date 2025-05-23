@@ -1,37 +1,46 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-import 'leaflet/dist/leaflet.css';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
-import { Marker, Popup, TileLayer } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 
-const MapContainer = dynamic(() => import('react-leaflet').then(m => m.MapContainer), { ssr: false });
-
-type Props = {
-  stations: any[];
+type Station = {
+  id: string;
+  name: string;
+  street: string;
+  place: string;
+  lat: number;
+  lng: number;
+  diesel: number;
+  e5: number;
+  e10: number;
 };
 
-export default function Map({ stations }: Props): JSX.Element {
-  const center: [number, number] = stations.length
-    ? [stations[0].lat, stations[0].lng]
-    : [48.1351, 11.5820];
+type Props = {
+  stations: Station[];
+};
+
+export default function Map({ stations }: Props) {
+  const center: [number, number] =
+    stations.length > 0
+      ? [stations[0].lat, stations[0].lng]
+      : [48.1351, 11.5820];
 
   return (
     <MapContainer
       center={center}
       zoom={13}
+      scrollWheelZoom={true}
       style={{ height: '400px', width: '100%' }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        options={{
-          attribution: '&copy; OpenStreetMap contributors'
-        }}
+        attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
       />
-      {stations.map((s) => (
+      {stations.map((station) => (
         <Marker
-          key={s.id}
-          position={[s.lat, s.lng]}
+          key={station.id}
+          position={[station.lat, station.lng]}
           icon={L.icon({
             iconUrl: 'https://cdn-icons-png.flaticon.com/512/252/252025.png',
             iconSize: [25, 41],
@@ -39,14 +48,7 @@ export default function Map({ stations }: Props): JSX.Element {
           })}
         >
           <Popup>
-            <strong>{s.name}</strong><br />
-            {s.street}, {s.place}<br />
-            Diesel: {s.diesel} €<br />
-            E5: {s.e5} €<br />
-            E10: {s.e10} €
-          </Popup>
-        </Marker>
-      ))}
-    </MapContainer>
-  );
-}
+            <strong>{station.name}</strong><br />
+            {station.street}, {station.place}<br />
+            Diesel: {station.diesel} €<br />
+            E5: {station.e5} €<b
